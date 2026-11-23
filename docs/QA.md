@@ -1,4 +1,17 @@
-# Preview QA
+# Quality assurance
+
+## Source handoff · 23 November 2026
+
+The initial source import was cloned from the private GitHub repository into an empty directory on Windows. A second checkout ran on GitHub's Ubuntu 24.04 runner. Both used Node 24 and the committed npm lockfile. [Tested source](https://github.com/abdulaz06/global-aroma/commit/dc4e706f89c0ce49fd50f6ff9458e246ad302437) · [GitHub Actions run](https://github.com/abdulaz06/global-aroma/actions/runs/45160069560)
+
+| Check | Result |
+| --- | --- |
+| Install and build | Both checkouts passed `npm ci`, Astro reported zero diagnostics, and the production build emitted seven content pages and one 404 page. |
+| Browser suite | Both passed 35 responsive route checks, 14 axe scans and 22 internal link targets. Chromium 159 and WebKit 27.2 passed the navigation, Studio, enquiry and JavaScript-disabled flows. |
+| Handoff integrity | The 59 files under `src/`, `public/`, `social/` and `output/pdf/` in the Windows clone matched the working project byte for byte. The checkout remained clean after the build and tests. |
+| Deployment isolation | After the push, the existing reviewer link opened the homepage and Studio with HTTP 200. The Production root returned a zero-byte 404. The Vercel project still listed the original two deployments and no Git repository connection. |
+
+## Original local design review
 
 This is the original local design-review baseline from 23 November 2026, before the shop handoff was added. Browser checks ran on Windows against the static build with Node 24.19.0, Astro 7.4.13, Playwright 1.65.1 and axe integration 4.14.0. The subsequent [hosted verification](DEPLOYMENT.md) covers the published Preview and its updated 22 internal link targets.
 
