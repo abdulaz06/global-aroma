@@ -6,9 +6,11 @@ interface Props {
   title: string;
   description: string;
   overlay?: boolean;
+  includePageUrl?: boolean;
 }
-const { title, description, overlay = false } = Astro.props;
+const { title, description, overlay = false, includePageUrl = true } = Astro.props;
 const origin = Astro.site ?? Astro.url.origin;
+const pageUrl = new URL(Astro.url.pathname, origin).href;
 const pageTitle =
   overlay || title.includes("Global DWC LLC")
     ? title
@@ -31,8 +33,10 @@ const current = (url: string) =>
     <title>{pageTitle} · Design concept</title>
     <meta name="description" content={description} />
     <meta name="robots" content="noindex,nofollow" />
+    {includePageUrl && <link rel="canonical" href={pageUrl} />}
     <meta name="theme-color" content="#29251f" />
     <meta property="og:type" content="website" />
+    {includePageUrl && <meta property="og:url" content={pageUrl} />}
     <meta property="og:site_name" content="Global Aroma · Independent design concept" />
     <meta property="og:title" content={`${pageTitle} · Design concept`} />
     <meta property="og:description" content={`Independent proposal for owner review. ${description}`} />
