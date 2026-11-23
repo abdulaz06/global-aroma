@@ -1,0 +1,82 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Photo from "../components/Photo.astro";
+import { divisions } from "../data/divisions";
+import "../styles/interior.css";
+
+const sectors = [
+  "Hotels",
+  "Restaurants",
+  "Residential buildings",
+  "Hospitals",
+  "Airports",
+  "Malls",
+];
+---
+
+<Layout
+  title="About Global DWC LLC"
+  description="Meet the Dubai-based company behind Global Aroma, Global Hospitality and Global Technology."
+>
+  <article class="interior about-page">
+    <section class="wrap about-intro">
+      <div>
+        <p class="eyebrow">About the company</p>
+        <h1>
+          Global <em>DWC LLC.</em>
+        </h1>
+      </div>
+      <p class="intro-copy">
+        Based in Dubai World Central, Global DWC LLC brings together three
+        divisions concerned with how people experience a place, from its first
+        impression to its everyday operation.
+      </p>
+    </section>
+    <figure class="wrap about-plate">
+      <div class="about-photo">
+        <Photo
+          name="arrival"
+          alt="Sunlight falls across an arched arrival hall."
+          eager
+          sizes="(max-width: 1400px) 92vw, 1320px"
+        />
+      </div>
+      <figcaption>
+        <span>Architectural study</span>
+        <span>Illustrative image</span>
+      </figcaption>
+    </figure>
+    <section
+      class="wrap editorial-section about-directory"
+      aria-labelledby="directory-heading"
+    >
+      <header class="section-heading">
+        <p class="eyebrow">Company directory</p>
+        <h2 id="directory-heading">Our divisions.</h2>
+      </header>
+      <div class="directory-links">
+        {divisions.map((division) => (
+          <a href={`/divisions/${division.slug}/`}>
+            <span>
+              <span class="directory-name">{division.name}</span>
+              <span class="directory-discipline">{division.discipline}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+    <section class="sectors-band">
+      <div class="wrap editorial-section">
+        <header class="section-heading">
+          <p class="eyebrow">Industries</p>
+          <h2>Spaces we serve.</h2>
+        </header>
+        <ul class="sector-list">
+          {sectors.map((sector) => (
+            <li>{sector}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </article>
+</Layout>

@@ -1,0 +1,196 @@
+---
+import Wordmark from "../components/Wordmark.astro";
+import { divisions as businessDivisions } from "../data/divisions";
+import "../styles/global.css";
+interface Props {
+  title: string;
+  description: string;
+  overlay?: boolean;
+}
+const { title, description, overlay = false } = Astro.props;
+const origin = Astro.site ?? Astro.url.origin;
+const pageTitle =
+  overlay || title.includes("Global DWC LLC")
+    ? title
+    : `${title} | Global DWC LLC`;
+const divisions = businessDivisions.map(({ name, slug }) => [name, slug]);
+const links = [
+  ["Atmosphere Studio", "/studio/"],
+  ["Shop products", "/divisions/aroma/#shop"],
+  ["About", "/about/"],
+];
+const current = (url: string) =>
+  Astro.url.pathname === url ? "page" : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle} · Design concept</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="theme-color" content="#29251f" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Global Aroma · Independent design concept" />
+    <meta property="og:title" content={`${pageTitle} · Design concept`} />
+    <meta property="og:description" content={`Independent proposal for owner review. ${description}`} />
+    <meta
+      property="og:image"
+      content={new URL("/social-preview.jpg", origin).href}
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Global Aroma. A sense of place. Sunlit arches in a concept arrival hall."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/mark.svg" />
+    <link
+      rel="preload"
+      href="/fonts/instrument-serif.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#main-content">
+      Skip to content
+    </a>
+    <header class:list={["site-header", { overlay }]}>
+      <div class="concept-notice">
+        <div class="wrap">
+          <span>Unofficial design concept</span>
+          <a href="https://globalaroma.me/">Official website</a>
+        </div>
+      </div>
+      <div class="wrap head-row">
+        <a href="/" class="brand" aria-label="Global Aroma home">
+          <Wordmark />
+        </a>
+        <nav aria-label="Main" class="desktop-nav">
+          <details class="division-menu">
+            <summary>
+              Our divisions <span class="caret"></span>
+            </summary>
+            <div class="drop-links">
+              {divisions.map(([name, slug]) => (
+                <a
+                  href={`/divisions/${slug}/`}
+                  aria-current={current(`/divisions/${slug}/`)}
+                >
+                  {name}
+                </a>
+              ))}
+            </div>
+          </details>
+          {links.map(([name, url]) => (
+            <a href={url} aria-current={current(url)}>
+              {name}
+            </a>
+          ))}
+        </nav>
+        <a
+          href="/contact/"
+          class="head-contact"
+          aria-current={current("/contact/")}
+        >
+          Get in touch
+        </a>
+        <details class="mobile-nav">
+          <summary aria-label="Site menu">
+            <span class="burger">
+              <i></i>
+              <i></i>
+            </span>
+          </summary>
+          <nav aria-label="Mobile" class="mobile-panel">
+            <a href="/#divisions">Our divisions</a>
+            {divisions.map(([name, slug]) => (
+              <a class="mobile-sub" href={`/divisions/${slug}/`}>
+                {name}
+              </a>
+            ))}
+            {links.map(([name, url]) => (
+              <a href={url}>{name}</a>
+            ))}
+            <a href="/contact/">Get in touch</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+    <main id="main-content">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="foot-main">
+          <div>
+            <a class="brand" href="/" aria-label="Global Aroma home">
+              <Wordmark />
+            </a>
+            <p>
+              Global DWC LLC
+              <br />
+              Dubai, United Arab Emirates
+            </p>
+          </div>
+          <div>
+            <h2>Divisions</h2>
+            {divisions.map(([name, slug]) => (
+              <a href={`/divisions/${slug}/`}>{name}</a>
+            ))}
+          </div>
+          <div>
+            <h2>Explore</h2>
+            <a href="/studio/">Atmosphere Studio</a>
+            <a href="/about/">About the company</a>
+            <a href="/divisions/aroma/#shop">Shop fragrance products</a>
+          </div>
+          <div>
+            <h2>Dubai office</h2>
+            <a href="mailto:info@globaldwc.com">info@globaldwc.com</a>
+            <a href="tel:+97143517399">+971 4 351 7399</a>
+            <a href="/contact/">Project enquiries</a>
+          </div>
+        </div>
+        <div class="foot-note">
+          <span>Global Aroma · Global DWC LLC</span>
+          <span>Design preview · Illustrative imagery</span>
+        </div>
+      </div>
+    </footer>
+    <script>
+      const menus = document.querySelectorAll<HTMLDetailsElement>(
+        ".site-header details",
+      );
+      for (const menu of menus) {
+        const trigger = menu.querySelector("summary");
+        menu.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && menu.open) {
+            menu.open = false;
+            trigger?.focus();
+          }
+        });
+        menu.addEventListener("focusout", (e) => {
+          if (
+            e.relatedTarget instanceof Node &&
+            !menu.contains(e.relatedTarget)
+          )
+            menu.open = false;
+        });
+        document.addEventListener("click", (e) => {
+          if (
+            e.target instanceof Element &&
+            (!menu.contains(e.target) || e.target.closest("a"))
+          )
+            menu.open = false;
+        });
+      }
+    </script>
+  </body>
+</html>

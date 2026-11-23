@@ -1,0 +1,292 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ScenePicture from "../components/ScenePicture.astro";
+import Photo from "../components/Photo.astro";
+import { divisions } from "../data/divisions";
+import "../styles/home.css";
+
+const scenes = [
+  {
+    image: "arrival",
+    caption: "The arrival hall",
+    alt: "An imagined arrival hall with ribbed sandstone arches and a sunlit palm beyond.",
+  },
+  {
+    image: "dining",
+    caption: "The dining room",
+    alt: "An imagined dining room with walnut tables, linen curtains and soft amber light.",
+  },
+  {
+    image: "workplace",
+    caption: "The workplace",
+    alt: "An imagined workplace lobby in pale stone, glass and brushed metal.",
+  },
+];
+const summaries = {
+  aroma: "Signature fragrances, scent diffusion and oils.",
+  hospitality: "Guest amenities, linens and hospitality supplies.",
+  technology: "ICT, digital signage and integrated systems.",
+};
+const families = [
+  {
+    name: "Hibiscus Passion",
+    family: "Citrus floral",
+    notes:
+      "Bergamot and grapefruit open onto hibiscus and jasmine, with amber and musk at the base.",
+  },
+  {
+    name: "Tomwood ED",
+    family: "Woods & spice",
+    notes:
+      "Pepper and cardamom give way to agarwood, sandalwood and vetiver over tonka, vanilla and amber.",
+  },
+  {
+    name: "Sun Snow ED",
+    family: "Marine floral",
+    notes:
+      "Lemon and bergamot lead into white flowers and Turkish rose, followed by musk, benzoin and vanilla.",
+  },
+];
+---
+
+<Layout
+  overlay
+  title="Global Aroma — Scent, Hospitality & Technology in Dubai"
+  description="Discover the fragrance, hospitality and technology divisions of Global DWC LLC in Dubai, and explore a concept for your space in Atmosphere Studio."
+>
+  <section class="home-hero" aria-labelledby="hero-title">
+    <div class="hero-photo" data-hero-photo>
+      <ScenePicture name="arrival" alt={scenes[0].alt} />
+    </div>
+    {scenes.map((scene) => (
+      <template data-hero-scene data-caption={scene.caption}>
+        <ScenePicture name={scene.image} alt={scene.alt} />
+      </template>
+    ))}
+    <div class="wrap hero-wrap">
+      <div class="hero-copy">
+        <p class="hero-kicker">
+          <span></span> Global DWC LLC
+        </p>
+        <h1 id="hero-title">
+          A sense
+          <br />
+          <em>of place.</em>
+        </h1>
+        <p class="hero-description">
+          Fragrance, hospitality and technology for spaces that leave an
+          impression.
+        </p>
+        <a class="button hero-cta" href="#divisions">
+          <i class="grid-glyph" aria-hidden="true"></i>Explore our divisions
+        </a>
+      </div>
+      <div class="hero-base">
+        <span class="location">
+          <svg
+            aria-hidden="true"
+            width="14"
+            height="17"
+            viewBox="0 0 16 20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.4"
+          >
+            <path d="M14 7.4c0 4-6 10.1-6 10.1S2 11.4 2 7.4a6 6 0 1 1 12 0Z" />
+            <circle cx="8" cy="7" r="1.9" />
+          </svg>
+          Dubai, United Arab Emirates
+        </span>
+        <div class="scene-picker">
+          <div class="scene-readout" aria-live="polite" aria-atomic="true">
+            <span class="scene-count" hidden data-count>
+              01 <span>/ 03</span>
+            </span>
+            <span data-scene-name>The arrival hall</span>
+          </div>
+          <div class="scene-buttons" hidden>
+            <button
+              type="button"
+              data-step="-1"
+              aria-label="Previous environment study"
+            >
+              <i class="chevron prev"></i>
+            </button>
+            <button
+              type="button"
+              data-step="1"
+              aria-label="Next environment study"
+            >
+              <i class="chevron"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section
+    class="division-section wrap"
+    id="divisions"
+    aria-labelledby="division-title"
+  >
+    <div class="home-section-head">
+      <div>
+        <p class="eyebrow ruled-label">Our expertise</p>
+        <h2 id="division-title">
+          Three <em>divisions.</em>
+        </h2>
+      </div>
+      <p>
+        From the fragrance in a lobby to the technology behind it, each division
+        shapes a different part of the experience.
+      </p>
+    </div>
+    <div class="division-grid">
+      {divisions.map((division) => (
+        <a
+          class={`division-card card-${division.slug}`}
+          href={`/divisions/${division.slug}/`}
+        >
+          <div class="division-image">
+            <Photo
+              name={division.slug}
+              alt={division.imageAlt}
+              sizes="(max-width: 680px) 91vw, 30vw"
+            />
+          </div>
+          <div class="division-card-foot">
+            <div>
+              <p class="eyebrow">{division.discipline}</p>
+              <h3>{division.name}</h3>
+            </div>
+            <span class="card-plus" aria-hidden="true">
+              +
+            </span>
+          </div>
+          <p class="division-summary">{summaries[division.slug]}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+  <section class="studio-feature" aria-labelledby="studio-title">
+    <div class="wrap studio-feature-grid">
+      <div class="studio-feature-copy">
+        <p class="eyebrow ruled-label">Interactive experience</p>
+        <h2 id="studio-title">
+          Atmosphere
+          <br />
+          <em>Studio.</em>
+        </h2>
+        <p>
+          Step inside a space. Choose a scent and bring the guest details and
+          technology together in a brief for the Dubai team.
+        </p>
+        <a class="button studio-enter" href="/studio/">
+          Enter the studio
+        </a>
+      </div>
+      <figure class="studio-feature-figure">
+        <Photo
+          name="dining"
+          alt="A warmly lit restaurant study with walnut chairs and a carefully set table."
+          sizes="(max-width: 760px) 90vw, 55vw"
+        />
+        <figcaption>
+          <span class="viewfinder" aria-hidden="true"></span>Restaurant study
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+  <section class="scent-feature wrap" aria-labelledby="scent-title">
+    <div class="scent-photo">
+      <Photo
+        name="botanicals"
+        alt="Illustrative fragrance materials on stone, including cut bergamot, wood and white flowers."
+        sizes="(max-width: 680px) 90vw, 40vw"
+      />
+    </div>
+    <div class="scent-copy">
+      <p class="eyebrow ruled-label">From the scent collection</p>
+      <h2 id="scent-title">
+        Fragrance <em>notes.</em>
+      </h2>
+      <p class="scent-intro">
+        Explore three compositions from the Global Aroma collection.
+      </p>
+      <div class="scent-index">
+        {families.map((scent, index) => (
+          <details name="fragrance-notes" open={index === 0}>
+            <summary>
+              <span>{scent.name}</span>
+              <small>{scent.family}</small>
+              <i aria-hidden="true"></i>
+            </summary>
+            <p>{scent.notes}</p>
+          </details>
+        ))}
+      </div>
+      <a class="text-link" href="https://globalaroma.me/scent-collection/">
+        Browse the scent collection
+      </a>
+    </div>
+  </section>
+  <section class="home-contact">
+    <div class="wrap home-contact-inner">
+      <div>
+        <p class="eyebrow ruled-label">Project enquiries</p>
+        <h2>
+          A space <em>in mind?</em>
+        </h2>
+      </div>
+      <a class="button" href="/contact/">
+        Talk to the Dubai team
+      </a>
+    </div>
+  </section>
+</Layout>
+<script>
+  const container = document.querySelector<HTMLElement>("[data-hero-photo]")!;
+  const templates = [
+    ...document.querySelectorAll<HTMLTemplateElement>("[data-hero-scene]"),
+  ];
+  const counter = document.querySelector<HTMLElement>("[data-count]")!;
+  const caption = document.querySelector<HTMLElement>("[data-scene-name]")!;
+  const controls = document.querySelector<HTMLElement>(".scene-buttons")!;
+  let selected = 0;
+  let displayed = 0;
+  controls.hidden = false;
+  counter.hidden = false;
+  controls.addEventListener("click", async (event) => {
+    const button =
+      event.target instanceof Element
+        ? event.target.closest<HTMLButtonElement>("button[data-step]")
+        : null;
+    if (!button) return;
+    selected =
+      (selected + Number(button.dataset.step) + templates.length) %
+      templates.length;
+    const next = templates[selected];
+    const picture = next.content
+      .querySelector("picture")!
+      .cloneNode(true) as HTMLPictureElement;
+    container.querySelector("[data-staging]")?.remove();
+    picture.dataset.staging = "";
+    container.append(picture);
+    try {
+      await picture.querySelector("img")!.decode();
+    } catch {
+      if (picture.isConnected) {
+        picture.remove();
+        selected = displayed;
+        caption.textContent = "Image unavailable. Try another study.";
+      }
+      return;
+    }
+    if (!picture.isConnected) return;
+    delete picture.dataset.staging;
+    container.replaceChildren(picture);
+    displayed = selected;
+    counter.firstChild!.textContent = `${String(selected + 1).padStart(2, "0")} `;
+    caption.textContent = next.dataset.caption ?? "";
+  });
+</script>

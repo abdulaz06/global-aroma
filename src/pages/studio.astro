@@ -1,0 +1,200 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Photo from "../components/Photo.astro";
+import { spaces, scents, inquiryLink, makeBrief } from "../data/studio";
+import "../styles/studio.css";
+
+const initialSpace = spaces[0];
+const initialScent = scents[0];
+const sampleEmail = `mailto:info@globaldwc.com?subject=${encodeURIComponent("Atmosphere Studio enquiry")}&body=${encodeURIComponent(makeBrief(initialSpace, initialScent))}`;
+// The study fills a tall frame. Allow for the part of a wide image cropped by object-fit.
+const photoSizes =
+  "(max-width: 780px) 145vw, (max-width: 1600px) 100vw, 1600px";
+---
+
+<Layout
+  title="Atmosphere Studio"
+  description="Explore a scent direction for your space and prepare a brief for Global Aroma, Global Hospitality and Global Technology."
+>
+  <section
+    class="studio-page wrap"
+    aria-labelledby="studio-heading"
+    data-studio
+  >
+    <header class="studio-intro">
+      <div>
+        <p class="eyebrow">An interactive space study</p>
+        <h1 id="studio-heading">
+          Atmosphere <em>Studio.</em>
+        </h1>
+      </div>
+      <p>
+        Choose a setting and a scent. Build a brief around what guests encounter
+        when they arrive.
+      </p>
+    </header>
+
+    <div class="studio-plate">
+      <figure class="studio-scene">
+        <div class="studio-photo" data-photo>
+          <Photo
+            name={initialSpace.image}
+            alt={initialSpace.alt}
+            eager
+            sizes={photoSizes}
+          />
+        </div>
+        <figcaption>
+          <span class="studio-scene-note">Illustrative space study</span>
+          <span class="studio-scene-title" data-space-title>
+            {initialSpace.title}
+          </span>
+        </figcaption>
+      </figure>
+      {spaces.map((space) => (
+        <template data-scene={space.id}>
+          <Photo name={space.image} alt={space.alt} eager sizes={photoSizes} />
+        </template>
+      ))}
+
+      <div class="studio-workbench">
+        <div class="studio-controls" data-controls>
+          <fieldset class="studio-setting" disabled>
+            <legend>Choose your setting</legend>
+            <div class="studio-space-options">
+              {spaces.map((space) => (
+                <label>
+                  <input
+                    type="radio"
+                    name="space"
+                    value={space.id}
+                    checked={space.id === initialSpace.id}
+                  />
+                  <span>{space.label}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset class="studio-scent" disabled>
+            <legend>Choose a scent direction</legend>
+            <div class="studio-scent-options">
+              {scents.map((scent) => (
+                <label style={`--swatch:${scent.color}`}>
+                  <input
+                    type="radio"
+                    name="scent"
+                    value={scent.id}
+                    checked={scent.id === initialScent.id}
+                  />
+                  <span class="studio-scent-row">
+                    <i class="studio-swatch" aria-hidden="true"></i>
+                    <span class="studio-scent-name">
+                      {scent.name}
+                      <small>{scent.direction}</small>
+                    </span>
+                    <i class="studio-radio-mark" aria-hidden="true"></i>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+
+        <noscript>
+          <style is:inline>
+            .studio-controls,
+            .studio-page [data-inquire] {
+              display: none;
+            }
+          </style>
+          <div class="studio-static-note">
+            <h2>A study for a hotel lobby</h2>
+            <p>
+              This example pairs White Tea with a welcome at reception. For
+              other options,{" "}
+              <a href="https://globalaroma.me/scent-collection/">
+                browse the scent collection
+              </a>{" "}
+              or describe your own space in an enquiry.
+            </p>
+          </div>
+        </noscript>
+
+        <div class="studio-notes">
+          <span class="eyebrow">Selected notes</span>
+          <p data-notes aria-live="polite" aria-atomic="true">
+            {initialScent.notes}.
+          </p>
+        </div>
+        <a class="studio-brief-jump" href="#studio-brief">
+          View your brief
+        </a>
+      </div>
+    </div>
+
+    <section
+      class="studio-brief"
+      id="studio-brief"
+      aria-labelledby="brief-heading"
+    >
+      <div class="studio-brief-head">
+        <p class="eyebrow">Your atmosphere brief</p>
+        <h2 id="brief-heading">
+          <span data-brief-space>{initialSpace.label}</span>
+          <br />
+          <em data-brief-scent>{initialScent.name}</em>
+        </h2>
+        <p>
+          Three points to bring to an initial conversation with the Dubai team.
+        </p>
+      </div>
+      <div class="studio-brief-body">
+        <dl>
+          <div>
+            <dt>Global Aroma</dt>
+            <dd>
+              <span data-brief-aroma>{initialSpace.aroma}</span>{" "}
+              <span data-profile>Ask to sample {initialScent.name}.</span>
+            </dd>
+          </div>
+          <div>
+            <dt>Global Hospitality</dt>
+            <dd data-brief-hospitality>{initialSpace.hospitality}</dd>
+          </div>
+          <div>
+            <dt>Global Technology</dt>
+            <dd data-brief-technology>{initialSpace.technology}</dd>
+          </div>
+        </dl>
+        <div class="studio-actions">
+          <a
+            class="button"
+            href={inquiryLink(initialSpace, initialScent)}
+            data-inquire
+          >
+            Enquire with this brief
+          </a>
+          <noscript>
+            <a class="button" href={sampleEmail}>
+              Email this sample brief
+            </a>
+          </noscript>
+          <button class="studio-copy" type="button" hidden data-copy>
+            Copy brief
+          </button>
+        </div>
+        <label class="studio-copy-fallback" hidden data-manual-copy>
+          Copy your brief from this field<textarea rows="6" readonly></textarea>
+        </label>
+        <p class="studio-status" role="status" data-status></p>
+      </div>
+    </section>
+  </section>
+</Layout>
+
+<script>
+  import { initStudio } from "../scripts/studio";
+  const studio = document.querySelector<HTMLElement>("[data-studio]");
+  if (studio) initStudio(studio);
+</script>

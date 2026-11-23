@@ -1,0 +1,46 @@
+{
+  "host": "global-aroma-concept-7n3w4dw2q-uhbdul.vercel.app",
+  "direct_guest_status": 302,
+  "routes": {
+    "/": {
+      "1440": 200,
+      "390": 200
+    },
+    "/about/": {
+      "1440": 200,
+      "390": 200
+    },
+    "/contact/": {
+      "1440": 200,
+      "390": 200
+    },
+    "/studio/": {
+      "1440": 200,
+      "390": 200
+    },
+    "/divisions/aroma/": {
+      "1440": 200,
+      "390": 200
+    },
+    "/divisions/hospitality/": {
+      "1440": 200,
+      "390": 200
+    },
+    "/divisions/technology/": {
+      "1440": 200,
+      "390": 200
+    }
+  },
+  "interactions": [
+    "Desktop carousel, disclosure, navigation and division enquiry.",
+    "Nine Studio pairings, decoded scenes, reload, keyboard, copy fallback and brief handoff.",
+    "Mobile carousel, disclosure, navigation and division enquiry.",
+    "Nine Studio pairings, decoded scenes, reload, keyboard, copy fallback and brief handoff."
+  ],
+  "unexpected_failures": [],
+  "robots_txt": 200,
+  "byte_verified_media_and_fonts": 27,
+  "desktop_image_transition": true,
+  "reduced_motion": true,
+  "result": "passed"
+}

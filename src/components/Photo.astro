@@ -1,0 +1,42 @@
+---
+const photos = {
+  arrival: { width: 1942, height: 809, sizes: [480, 800, 1280, 1942] },
+  dining: { width: 1254, height: 627, sizes: [480, 800, 1254] },
+  workplace: { width: 1254, height: 627, sizes: [480, 800, 1254] },
+  aroma: { width: 724, height: 724, sizes: [480, 724] },
+  hospitality: { width: 724, height: 724, sizes: [480, 724] },
+  technology: { width: 724, height: 724, sizes: [480, 724] },
+  botanicals: { width: 1280, height: 853, sizes: [480, 800, 1280] },
+};
+interface Props {
+  name: string;
+  alt: string;
+  sizes?: string;
+  eager?: boolean;
+  class?: string;
+}
+const {
+  name,
+  alt,
+  sizes = "100vw",
+  eager = false,
+  class: className,
+} = Astro.props;
+const photo = photos[name as keyof typeof photos];
+if (!photo) throw new Error(`Unknown photograph: ${name}`);
+---
+
+<img
+  src={`/images/${name}-${photo.sizes[photo.sizes.length - 1]}.webp`}
+  srcset={photo.sizes
+    .map((width) => `/images/${name}-${width}.webp ${width}w`)
+    .join(", ")}
+  alt={alt}
+  sizes={sizes}
+  width={photo.width}
+  height={photo.height}
+  class={className}
+  loading={eager ? "eager" : "lazy"}
+  fetchpriority={eager ? "high" : undefined}
+  decoding="async"
+/>

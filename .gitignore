@@ -1,0 +1,31 @@
+# Dependencies, builds and browser output
+node_modules/
+dist/
+.astro/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# Local credentials and deployment state
+.env*
+!.env.example
+.vercel/
+.npmrc
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Machine-local files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.venv/
+__pycache__/
+*.pyc
+tmp/
+*.log
+*.tmp
+*.swp

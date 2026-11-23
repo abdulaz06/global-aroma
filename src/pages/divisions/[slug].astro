@@ -1,0 +1,130 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Photo from "../../components/Photo.astro";
+import { divisions } from "../../data/divisions";
+import "../../styles/interior.css";
+
+export const getStaticPaths = () =>
+  divisions.map((division) => ({
+    params: { slug: division.slug },
+    props: { division },
+  }));
+
+const { division } = Astro.props;
+const next =
+  divisions[
+    (divisions.findIndex((item) => item.slug === division.slug) + 1) %
+      divisions.length
+  ];
+const inquiry = `/contact/?division=${division.slug}`;
+---
+
+<Layout title={division.name} description={division.intro}>
+  <article class={`interior division-page division-${division.slug}`}>
+    <section class="division-cover">
+      <div class="wrap division-cover-grid">
+        <div class="division-lead">
+          <a class="section-back" href="/#divisions">
+            All divisions
+          </a>
+          <div>
+            <p class="eyebrow">{division.discipline}</p>
+            <h1>
+              Global <em>{division.name.slice(7)}.</em>
+            </h1>
+            <p class="intro-copy">{division.intro}</p>
+            <div class="division-actions">
+              {division.slug === "aroma" && <a class="button" href="#shop">Shop products</a>}
+              <a class={division.slug === "aroma" ? "inside-link" : "button"} href={inquiry}>
+                Discuss a project
+              </a>
+            </div>
+          </div>
+        </div>
+        <figure class="division-plate">
+          <div class="plate-photo">
+            <Photo
+              name={division.slug}
+              alt={division.imageAlt}
+              eager
+              sizes="(max-width: 720px) 100vw, 51vw"
+            />
+          </div>
+          <figcaption>
+            <span>Illustrative study</span>
+            <span>Division {division.index} / 03</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+    {division.slug === "aroma" && (
+      <section class="store-section" id="shop" aria-labelledby="store-title">
+        <div class="wrap editorial-section">
+          <header class="section-heading">
+            <p class="eyebrow">Official store</p>
+            <h2 id="store-title">Shop oils <em>&amp; diffusers.</em></h2>
+            <p class="store-intro">Select a product to continue on globalaroma.me. The official store handles quantities, current prices and checkout.</p>
+          </header>
+          <div class="store-products">
+            <div>
+              <p class="eyebrow">Diffusion</p>
+              <h3>GA-OV-5</h3>
+              <p>A compact cold-air fragrance diffuser.</p>
+              <a class="inside-link" href="https://globalaroma.me/product/ga-ov-5/">Shop the GA-OV-5 diffuser</a>
+            </div>
+            <div>
+              <p class="eyebrow">Fragrance oil</p>
+              <h3>Arabic Coffee</h3>
+              <p>Diffuser oil from the Global Aroma collection.</p>
+              <a class="inside-link" href="https://globalaroma.me/product/arabic-coffee/">Shop Arabic Coffee oil</a>
+            </div>
+            <nav class="store-categories" aria-label="Official store categories">
+              <a class="text-link" href="https://globalaroma.me/product-category/oils/">All oils</a>
+              <a class="text-link" href="https://globalaroma.me/product-category/diffusers/">All diffusers</a>
+            </nav>
+          </div>
+        </div>
+      </section>
+    )}
+    <section
+      class="wrap editorial-section service-section"
+      aria-labelledby="service-heading"
+    >
+      <header class="section-heading">
+        <p class="eyebrow">Products &amp; services</p>
+        <h2 id="service-heading">{division.heading}</h2>
+        {division.slug === "aroma" && (
+          <a class="inside-link" href="https://globalaroma.me/distributors/">
+            Distributor enquiries
+          </a>
+        )}
+      </header>
+      <div class="service-list">
+        {division.services.map((service) => (
+          <section class="service-item">
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+            {service.link && (
+              <a class="inside-link" href={service.link.href}>
+                {service.link.label}
+              </a>
+            )}
+          </section>
+        ))}
+      </div>
+    </section>
+    <div class="wrap division-after">
+      <div>
+        <p class="eyebrow">Project enquiries</p>
+        <p class="brief-prompt">{division.briefPrompt}</p>
+        <a href={inquiry} class="inside-link">
+          Contact {division.name}
+        </a>
+      </div>
+      <a href={`/divisions/${next.slug}/`} class="next-division">
+        <span class="eyebrow">Next division</span>
+        <span>{next.name}</span>
+      </a>
+    </div>
+  </article>
+</Layout>

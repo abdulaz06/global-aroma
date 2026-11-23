@@ -1,0 +1,13 @@
+---
+import Photo from "./Photo.astro";
+interface Props {
+  name: string;
+  alt: string;
+}
+const { name, alt } = Astro.props;
+---
+
+<picture>
+  <source media="(max-width: 620px)" srcset={`/images/${name}-portrait.webp`} />
+  <Photo {name} {alt} sizes="(max-width: 1000px) 1700px, 100vw" eager />
+</picture>

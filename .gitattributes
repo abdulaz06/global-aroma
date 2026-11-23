@@ -1,0 +1,8 @@
+* text=auto eol=lf
+*.woff2 binary
+*.webp binary
+*.jpg binary
+*.png binary
+*.pdf binary
+# Preserve the third-party notices as distributed with each font.
+public/fonts/LICENSE-*.txt -text -whitespace
